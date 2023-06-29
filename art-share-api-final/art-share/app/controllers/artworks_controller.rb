@@ -1,7 +1,10 @@
 class ArtworksController < ApplicationController
     def index
-        artworks = Artwork.all
-        render json: artworks
+        # user = User.find(params[:user_id])
+        # artworks = user.artworks + user.shared_artworks
+
+        artworks = Artwork.artworks_for_user_id(params[:user_id])
+        render json: artworks.uniq
     end
 
     def create
@@ -32,7 +35,8 @@ class ArtworksController < ApplicationController
     def destroy
         artwork = Artwork.find_by(id: params[:id])
         artwork.destroy
-        redirect_to artworks_url
+        render json: artwork
+        # redirect_to artworks_url
     end
 
     private
