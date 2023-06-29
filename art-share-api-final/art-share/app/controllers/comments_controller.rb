@@ -1,11 +1,20 @@
 class CommentsController < ApplicationController
     def index
-        comments = Comment.comments_for_user_or_artwork_id(params[:user_id], params[:artwork_id])
+        if !params[:user_id].nil?
+            user = User.find(params[:user_id])
+            comments = user.comments
+        elsif !params[:artwork_id].nil?
+            artwork = Artwork.find(params[:artwork_id])
+            comments = artwork.comments
+        else
+            comments = Comment.all
+        end
+
         render json: comments
     end
     
     def create
-        comments = Comment.new(comments_params)
+        comment = Comment.new(comments_params)
         
         if comment.save
             render json: comment, status: :created
@@ -23,6 +32,6 @@ class CommentsController < ApplicationController
     private
     
     def comments_params
-        params.require(:comment).permit(:body, :commenter_id, :artwork_commented_id_id)
+        params.require(:comment).permit(:body, :commenter_id, :artwork_commented_id)
     end
 end

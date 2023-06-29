@@ -17,12 +17,4 @@ class Comment < ApplicationRecord
 
     belongs_to :artwork_commented,
         class_name: :Artwork
-
-    def self.comments_by_user_id(user_id)
-
-    end
-       
-    def self.comments_by_artwork_id(artwork_id)
-
-    end
 end

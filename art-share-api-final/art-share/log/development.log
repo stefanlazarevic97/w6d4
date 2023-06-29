@@ -1609,3 +1609,94 @@ FOREIGN KEY ("artwork_commented_id")
   [1m[36mArtwork Load (0.1ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
   [1m[36mComment Create (0.5ms)[0m  [1m[32mINSERT INTO "comments" ("body", "commenter_id", "artwork_commented_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["body", "How much would this cost to buy???"], ["commenter_id", 5], ["artwork_commented_id", 4], ["created_at", "2023-06-29 19:12:49.756153"], ["updated_at", "2023-06-29 19:12:49.756153"]]
   [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/comments" for ::1 at 2023-06-29 13:45:35 -0700
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CommentsController#index as */*
+  [1m[36mComment Load (1.5ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  ↳ app/controllers/comments_controller.rb:17:in `index'
+Completed 200 OK in 13ms (Views: 3.7ms | ActiveRecord: 7.5ms | Allocations: 5594)
+
+
+Started GET "/comments/1" for ::1 at 2023-06-29 13:45:51 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/comments/1"):
+  
+Started GET "/users/1/comments" for ::1 at 2023-06-29 13:46:58 -0700
+Processing by CommentsController#index as */*
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:8:in `index'
+  [1m[36mComment Load (0.3ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."commenter_id" = $1[0m  [["commenter_id", 1]]
+  ↳ app/controllers/comments_controller.rb:17:in `index'
+Completed 200 OK in 21ms (Views: 4.5ms | ActiveRecord: 4.3ms | Allocations: 8144)
+
+
+Started GET "/artworks/1/comments" for ::1 at 2023-06-29 13:47:11 -0700
+Processing by CommentsController#index as */*
+  Parameters: {"artwork_id"=>"1"}
+  [1m[36mArtwork Load (1.2ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:11:in `index'
+  [1m[36mComment Load (0.3ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."artwork_commented_id" = $1[0m  [["artwork_commented_id", 1]]
+  ↳ app/controllers/comments_controller.rb:17:in `index'
+Completed 200 OK in 19ms (Views: 4.9ms | ActiveRecord: 1.5ms | Allocations: 8170)
+
+
+Started POST "/comments" for ::1 at 2023-06-29 13:51:18 -0700
+Processing by CommentsController#create as */*
+  Parameters: {"comment"=>{"body"=>"Why does she look so angry?", "commenter_id"=>"6", "artwork_commented_id"=>"1"}}
+Completed 500 Internal Server Error in 9ms (ActiveRecord: 2.7ms | Allocations: 6298)
+
+
+
+NameError - undefined local variable or method `comment' for #<CommentsController:0x00000000023500>
+        if comment.save
+           ^^^^^^^
+Did you mean?  comments:
+  app/controllers/comments_controller.rb:19:in `create'
+
+Started POST "/comments" for ::1 at 2023-06-29 13:51:49 -0700
+Processing by CommentsController#create as */*
+  Parameters: {"comment"=>{"body"=>"Why does she look so angry?", "commenter_id"=>"6", "artwork_commented_id"=>"1"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/comments_controller.rb:19:in `create'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:19:in `create'
+  [1m[36mArtwork Load (0.4ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:19:in `create'
+  [1m[36mComment Create (1.0ms)[0m  [1m[32mINSERT INTO "comments" ("body", "commenter_id", "artwork_commented_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["body", "Why does she look so angry?"], ["commenter_id", 6], ["artwork_commented_id", 1], ["created_at", "2023-06-29 20:51:49.713849"], ["updated_at", "2023-06-29 20:51:49.713849"]]
+  ↳ app/controllers/comments_controller.rb:19:in `create'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/comments_controller.rb:19:in `create'
+Completed 201 Created in 25ms (Views: 0.2ms | ActiveRecord: 11.5ms | Allocations: 17815)
+
+
+Started GET "/comments" for ::1 at 2023-06-29 13:51:55 -0700
+Processing by CommentsController#index as */*
+  Parameters: {"comment"=>{"body"=>"Why does she look so angry?", "commenter_id"=>"6", "artwork_commented_id"=>"1"}}
+  [1m[36mComment Load (0.3ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  ↳ app/controllers/comments_controller.rb:13:in `index'
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.3ms | Allocations: 1345)
+
+
+Started DELETE "/comments/6" for ::1 at 2023-06-29 13:52:03 -0700
+Processing by CommentsController#destroy as */*
+  Parameters: {"comment"=>{"body"=>"Why does she look so angry?", "commenter_id"=>"6", "artwork_commented_id"=>"1"}, "id"=>"6"}
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:27:in `destroy'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/comments_controller.rb:28:in `destroy'
+  [1m[36mComment Destroy (1.6ms)[0m  [1m[31mDELETE FROM "comments" WHERE "comments"."id" = $1[0m  [["id", 6]]
+  ↳ app/controllers/comments_controller.rb:28:in `destroy'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/comments_controller.rb:28:in `destroy'
+Completed 200 OK in 9ms (Views: 0.4ms | ActiveRecord: 2.5ms | Allocations: 3005)
+
+
+Started GET "/comments" for ::1 at 2023-06-29 13:52:08 -0700
+Processing by CommentsController#index as */*
+  Parameters: {"comment"=>{"body"=>"Why does she look so angry?", "commenter_id"=>"6", "artwork_commented_id"=>"1"}}
+  [1m[36mComment Load (0.3ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  ↳ app/controllers/comments_controller.rb:13:in `index'
+Completed 200 OK in 13ms (Views: 12.4ms | ActiveRecord: 0.3ms | Allocations: 1155)
+
+
