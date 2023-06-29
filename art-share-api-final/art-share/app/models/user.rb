@@ -20,6 +20,6 @@ class User < ApplicationRecord
         dependent: :destroy
 
     has_many :shared_artworks,
-        through: :viewed,
+        through: :artworks_viewed,
         source: :artwork
 end
