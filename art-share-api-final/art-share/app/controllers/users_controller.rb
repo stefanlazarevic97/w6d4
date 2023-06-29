@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
     def index
-        users = User.all
+        if params[:username].nil?
+            users = User.all
+        else
+            temp_str = "%#{params[:username]}%"
+            users = User.where("username ILIKE ?", temp_str) # case insensitive
+        end
+
         render json: users
     end
 
