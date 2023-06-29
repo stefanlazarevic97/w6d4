@@ -47,5 +47,11 @@ ApplicationRecord.transaction do
   as6 = ArtworkShare.create!(artwork_id: 1, viewer_id: 2)
   as7 = ArtworkShare.create!(artwork_id: 5, viewer_id: 3)
 
+  c1 = Comment.create!(body: "I love the brush strokes!", commenter_id: 3, artwork_commented_id: 1)
+  c2 = Comment.create!(body: "Looks fake.", commenter_id: 2, artwork_commented_id: 5)
+  c3 = Comment.create!(body: "A little bit depressing.", commenter_id: 6, artwork_commented_id: 7)
+  c4 = Comment.create!(body: "I could do better.", commenter_id: 1, artwork_commented_id: 3)
+  c5 = Comment.create!(body: "How much would this cost to buy???", commenter_id: 5, artwork_commented_id: 4)
+
   puts 'Done!'
 end
