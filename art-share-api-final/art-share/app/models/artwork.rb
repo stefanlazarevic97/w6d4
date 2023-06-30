@@ -8,6 +8,7 @@
 #  artist_id  :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  favorited  :boolean
 #
 class Artwork < ApplicationRecord
     validates :title, presence: true
