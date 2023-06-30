@@ -29,4 +29,9 @@ class User < ApplicationRecord
     has_many :shared_artworks,
         through: :artworks_viewed,
         source: :artwork
+
+    has_many :likes,
+        foreign_key: :user_id,
+        dependent: :destroy,
+        inverse_of: :liker
 end

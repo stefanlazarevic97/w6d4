@@ -41,6 +41,11 @@ class UsersController < ApplicationController
         redirect_to users_url
     end
 
+    def likes
+        user = User.find_by(id: params[:user_id])
+        render json: user.likes
+    end
+
     private
     
     def user_params

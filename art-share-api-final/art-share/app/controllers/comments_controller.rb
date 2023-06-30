@@ -29,9 +29,24 @@ class CommentsController < ApplicationController
         render json: comment
     end
 
+    def like
+        like = Like.new(user_id: params[:user_id], likeable_type: "Comment", likeable_id: params[:comment_id])
+
+        if like.save
+            render json: like, status: :created
+        else
+            render json: like.errors.full_messages, status: :unprocessable_entity
+        end
+    end
+
+    def likers
+        comment = Comment.find(params[:comment_id])
+        render json: comment.likers
+    end
+
     private
     
     def comments_params
-        params.require(:comment).permit(:body, :commenter_id, :artwork_commented_id)
+        params.require(:comment).permit(:body, :commenter_id, :artwork_commented_id, :user_id)
     end
 end

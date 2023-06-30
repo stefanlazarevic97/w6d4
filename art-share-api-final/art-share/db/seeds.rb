@@ -12,6 +12,7 @@ ApplicationRecord.transaction do
   # you use `rails db:seed:replant`.
   puts 'Destroying tables...'
   ArtworkShare.destroy_all
+  Like.destroy_all
   Comment.destroy_all
   Artwork.destroy_all
   User.destroy_all
@@ -19,7 +20,7 @@ ApplicationRecord.transaction do
   # Reset the id (i.e., primary key) counters for each table to start at 1
   # (helpful for debugging)
   puts 'Resetting id sequences...'
-  %w(users artworks artwork_shares comments).each do |table_name|
+  %w(users artworks artwork_shares comments likes).each do |table_name|
     ApplicationRecord.connection.reset_pk_sequence!(table_name)
   end
   
@@ -54,5 +55,12 @@ ApplicationRecord.transaction do
   c4 = Comment.create!(body: "I could do better.", commenter_id: u1.id, artwork_commented_id: a3.id)
   c5 = Comment.create!(body: "How much would this cost to buy???", commenter_id: u5.id, artwork_commented_id: a4.id)
 
+  l1 = Like.create!(user_id: u1.id, likeable_id: a4.id, likeable_type: 'Artwork')
+  l2 = Like.create!(user_id: u2.id, likeable_id: c3.id, likeable_type: 'Comment')
+  l3 = Like.create!(user_id: u2.id, likeable_id: a1.id, likeable_type: 'Artwork')
+  l4 = Like.create!(user_id: u3.id, likeable_id: c1.id, likeable_type: 'Comment')
+  l5 = Like.create!(user_id: u6.id, likeable_id: a7.id, likeable_type: 'Artwork')
+  l6 = Like.create!(user_id: u5.id, likeable_id: c5.id, likeable_type: 'Comment')
+  
   puts 'Done!'
 end

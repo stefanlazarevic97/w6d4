@@ -27,6 +27,14 @@ class Artwork < ApplicationRecord
         dependent: :destroy,
         inverse_of: :artwork_commented
 
+    has_many :likes,
+        as: :likeable,
+        dependent: :destroy
+    
+    has_many :likers,
+        through: :likes,
+        source: :liker
+
     has_many :shared_viewers,
         through: :artwork_shares,
         source: :viewer

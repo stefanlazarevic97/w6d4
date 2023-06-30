@@ -36,12 +36,26 @@ class ArtworksController < ApplicationController
         artwork = Artwork.find_by(id: params[:id])
         artwork.destroy
         render json: artwork
-        # redirect_to artworks_url
+    end
+
+    def like
+        like = Like.new(user_id: params[:user_id], likeable_type: "Artwork", likeable_id: params[:artwork_id])
+
+        if like.save
+            render json: like, status: :created
+        else
+            render json: like.errors.full_messages, status: :unprocessable_entity
+        end
+    end
+
+    def likers
+        artwork = Artwork.find(params[:artwork_id])
+        render json: artwork.likers
     end
 
     private
     
     def artwork_params
-        params.require(:artwork).permit(:title, :image_url, :artist_id)
+        params.require(:artwork).permit(:title, :image_url, :artist_id, :user_id)
     end
 end

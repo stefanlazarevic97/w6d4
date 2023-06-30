@@ -17,4 +17,12 @@ class Comment < ApplicationRecord
 
     belongs_to :artwork_commented,
         class_name: :Artwork
+
+    has_many :likes,
+        as: :likeable,
+        dependent: :destroy
+
+    has_many :likers,
+        through: :likes,
+        source: :liker
 end
